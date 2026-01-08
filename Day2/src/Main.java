@@ -17,5 +17,13 @@ public class Main {
         List<Mopoken> result = planner.findOrder(mine, opponent);
 
         System.out.println(result);
+
+        StringBuilder sb = new StringBuilder();
+
+        for(Mopoken m: result) {
+            sb.append(m).append(';');
+        }
+
+        System.out.println(sb.toString());
     }
 }
