@@ -16,4 +16,25 @@ Payments (payment_id, payment_name)
 
 Orders (order_id, buyer_id, total_amount, payment_id, order_date)
 
-Order_items (order_item_id, order_id, sp_id, quantity, price)
+Order_items (order_item_id, order_id, sp_id, quantity)
+
+## Queries
+
+1. Sellers total revenue last week
+
+SELECT s.seller_name, SUM(oi.quantity \* sp.price) FROM Orders o
+JOIN Order_items oi ON oi.order_id = o.order_id
+JOIN Seller_products sp ON sp.sp_id = oi.sp_id
+JOIN Sellers s on s.seller_id = sp.seller_id
+WHERE o.order_date >= CURRENT_DATE - INTERVAL '1 Month'
+GROUP BY s.seller_name;
+
+2. top 10 selling products by revenue
+
+SELECT p.product_id, p.product_name, SUM(oi.quantity \* sp.price) AS total_revenue
+FROM Order_items oi
+JOIN Seller_products sp ON sp.sp_id = oi.sp_id
+JOIN Products p ON sp.product_id = p.product_id
+GROUP BY p.product_id, p.product_name
+ORDER BY total_revenue DESC
+LIMIT 10;
