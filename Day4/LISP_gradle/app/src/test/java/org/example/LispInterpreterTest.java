@@ -3,18 +3,16 @@
  */
 package org.example;
 
+import java.util.List;
+
+import org.evaluate.EvaluationVisitor;
+import org.factory.NodeFactory;
+import static org.junit.Assert.assertEquals;
+import org.junit.Before;
 import org.junit.Test;
 import org.preProcess.Parser;
 import org.preProcess.Tokenizer;
 import org.visitor.Node;
-
-import static org.junit.Assert.*;
-
-import java.util.*;
-
-import org.evaluate.EvaluationVisitor;
-import org.factory.NodeFactory;
-import org.junit.Before;
 
 public class LispInterpreterTest {
 
@@ -42,6 +40,11 @@ public class LispInterpreterTest {
     @Test
     public void testAdditionIntegers() {
         assertEquals(3, eval("(+ 1 2)"));
+    }
+
+    @Test
+    public void testAdditionDouble() {
+        assertEquals(4, eval("(+ 1.4 2.6)"));
     }
 
     @Test
