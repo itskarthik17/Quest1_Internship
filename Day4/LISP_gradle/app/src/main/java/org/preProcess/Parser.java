@@ -52,7 +52,8 @@ public class Parser {
         // number checking
         if (token.matches("-?\\d+(\\.\\d+)?")) {
             try {
-                return factory.createNumber(Double.parseDouble(token));
+                boolean isFloatLiteral = token.contains(".");
+                return factory.createNumber(Double.parseDouble(token), isFloatLiteral);
             } catch (NumberFormatException e) {
                 throw new RuntimeException("Invalid number: " + token);
             }

@@ -15,17 +15,21 @@ public class EvaluationVisitor implements Visitor {
 
     @Override
     public Object visit(NumberNode node) {
-        return node.getValue(); // stored as double
+        double value = node.getValue();
+        if (node.isFloatLiteral()) {
+            return value; // keep as double for float literals
+        }
+        return normalize(value); // convert whole numbers to int
     }
 
     @Override
     public Object visit(SymbolNode node) {
         String name = node.getName();
         if (name.equalsIgnoreCase("true")) {
-            return "True";
+            return 1;
         }
         if (name.equalsIgnoreCase("false")) {
-            return "False";
+            return 0;
         }
 
         return env.lookup(name);
@@ -61,10 +65,10 @@ public class EvaluationVisitor implements Visitor {
                 return num(elements.get(1)) / divisor; // always floating
 
             case ">":
-                return num(elements.get(1)) > num(elements.get(2)) ? "True" : "False";
+                return num(elements.get(1)) > num(elements.get(2)) ? 1 : 0;
 
             case "<":
-                return num(elements.get(1)) < num(elements.get(2)) ? "True" : "False";
+                return num(elements.get(1)) < num(elements.get(2)) ? 1 : "False";
 
             case "define":
                 if (!(elements.get(1) instanceof SymbolNode)) {

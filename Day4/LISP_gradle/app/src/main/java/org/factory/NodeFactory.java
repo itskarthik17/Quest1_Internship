@@ -9,8 +9,12 @@ import org.visitor.SymbolNode;
 
 public class NodeFactory {
 
-    public NumberNode createNumber(double value) {
-        return new NumberNode(value);
+    public NumberNode createNumber(double value) { // if the number is integer
+        return new NumberNode(value, false);
+    }
+
+    public NumberNode createNumber(double value, boolean isFloatLiteral) { // this if number is boolean
+        return new NumberNode(value, isFloatLiteral);
     }
 
     public SymbolNode createSymbol(String name) {

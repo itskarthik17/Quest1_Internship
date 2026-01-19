@@ -3,13 +3,19 @@ package org.visitor;
 public class NumberNode implements Node {
 
     private final double value;
+    private final boolean isFloatLiteral;
 
-    public NumberNode(double value) {
+    public NumberNode(double value, boolean isFloatLiteral) {
         this.value = value;
+        this.isFloatLiteral = isFloatLiteral;
     }
 
     public double getValue() {
         return value;
+    }
+
+    public boolean isFloatLiteral() {
+        return isFloatLiteral;
     }
 
     @Override
