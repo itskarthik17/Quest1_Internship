@@ -20,7 +20,15 @@ public class EvaluationVisitor implements Visitor {
 
     @Override
     public Object visit(SymbolNode node) {
-        return env.lookup(node.getName());
+        String name = node.getName();
+        if (name.equalsIgnoreCase("true")) {
+            return "True";
+        }
+        if (name.equalsIgnoreCase("false")) {
+            return "False";
+        }
+
+        return env.lookup(name);
     }
 
     @Override
@@ -69,11 +77,20 @@ public class EvaluationVisitor implements Visitor {
 
             case "if":
                 double condition = num(elements.get(1));
+
+                Object result;
                 if (condition != 0) {
-                    return elements.get(2).accept(this);
+                    result = elements.get(2).accept(this);
                 } else {
-                    return elements.get(3).accept(this);
+                    result = elements.get(3).accept(this);
                 }
+
+                if (result instanceof Number) {
+                    double v = ((Number) result).doubleValue();
+                    return normalize(v);
+                }
+
+                return result;
 
             default:
                 throw new RuntimeException("Unknown operator: " + operator);
@@ -91,6 +108,19 @@ public class EvaluationVisitor implements Visitor {
         }
         if (value instanceof Float) {
             return ((Float) value).doubleValue();
+        }
+
+        if (value instanceof Boolean) {
+            return (Boolean) value ? 1 : 0;
+        }
+
+        if (value instanceof String) {
+            if (((String) value).equalsIgnoreCase("true")) {
+                return 1.0;
+            }
+            if (((String) value).equalsIgnoreCase("false")) {
+                return 0.0;
+            }
         }
 
         throw new RuntimeException("Expected numeric value but got: " + value);
