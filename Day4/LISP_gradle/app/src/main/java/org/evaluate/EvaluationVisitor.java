@@ -80,7 +80,6 @@ public class EvaluationVisitor implements Visitor {
         }
     }
 
-    // Convert evaluated value to double
     private double num(Node node) {
         Object value = node.accept(this);
 
