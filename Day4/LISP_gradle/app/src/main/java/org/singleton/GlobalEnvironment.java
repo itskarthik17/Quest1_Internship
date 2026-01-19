@@ -3,6 +3,8 @@ package org.singleton;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.customException.LispException;
+
 public class GlobalEnvironment {
     private static GlobalEnvironment instance;
     private final Map<String, Object> variables = new HashMap<>();
@@ -23,8 +25,9 @@ public class GlobalEnvironment {
 
     public Object lookup(String name) {
         if (!variables.containsKey(name)) {
-            throw new RuntimeException("Undefined symbol: " + name);
+            throw new LispException("Undefined variable: " + name);
         }
         return variables.get(name);
     }
+
 }

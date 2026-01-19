@@ -15,7 +15,7 @@ public class EvaluationVisitor implements Visitor {
 
     @Override
     public Object visit(NumberNode node) {
-        return node.getValue();
+        return node.getValue(); // stored as double
     }
 
     @Override
@@ -25,32 +25,50 @@ public class EvaluationVisitor implements Visitor {
 
     @Override
     public Object visit(ListNode node) {
+
         List<Node> elements = node.getElements();
+
+        if (elements.isEmpty()) {
+            throw new RuntimeException("Empty expression");
+        }
+
         String operator = ((SymbolNode) elements.get(0)).getName();
 
         switch (operator) {
+
             case "+":
-                return (int) elements.get(1).accept(this)
-                        + (int) elements.get(2).accept(this);
+                return normalize(num(elements.get(1)) + num(elements.get(2)));
+
+            case "-":
+                return normalize(num(elements.get(1)) - num(elements.get(2)));
 
             case "*":
-                return (int) elements.get(1).accept(this)
-                        * (int) elements.get(2).accept(this);
+                return normalize(num(elements.get(1)) * num(elements.get(2)));
+
+            case "/":
+                double divisor = num(elements.get(2));
+                if (divisor == 0) {
+                    throw new ArithmeticException("Division by zero");
+                }
+                return num(elements.get(1)) / divisor; // always floating
 
             case ">":
-                if ((int) elements.get(1).accept(this) > (int) elements.get(2).accept(this)) {
-                    return 1;
-                }
-                return 0;
+                return num(elements.get(1)) > num(elements.get(2)) ? "True" : "False";
+
+            case "<":
+                return num(elements.get(1)) < num(elements.get(2)) ? "True" : "False";
 
             case "define":
+                if (!(elements.get(1) instanceof SymbolNode)) {
+                    throw new RuntimeException("define requires a symbol");
+                }
                 String var = ((SymbolNode) elements.get(1)).getName();
                 Object value = elements.get(2).accept(this);
                 env.define(var, value);
                 return value;
 
             case "if":
-                int condition = (int) elements.get(1).accept(this);
+                double condition = num(elements.get(1));
                 if (condition != 0) {
                     return elements.get(2).accept(this);
                 } else {
@@ -60,5 +78,33 @@ public class EvaluationVisitor implements Visitor {
             default:
                 throw new RuntimeException("Unknown operator: " + operator);
         }
+    }
+
+    // Convert evaluated value to double
+    private double num(Node node) {
+        Object value = node.accept(this);
+
+        if (value instanceof Integer) {
+            return ((Integer) value).doubleValue();
+        }
+        if (value instanceof Double) {
+            return (Double) value;
+        }
+        if (value instanceof Float) {
+            return ((Float) value).doubleValue();
+        }
+
+        throw new RuntimeException("Expected numeric value but got: " + value);
+    }
+
+    private boolean isWhole(double value) {
+        return value == Math.floor(value);
+    }
+
+    private Object normalize(double value) {
+        if (isWhole(value)) {
+            return (int) value;
+        }
+        return value;
     }
 }

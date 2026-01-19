@@ -7,9 +7,10 @@ import org.factory.NodeFactory;
 import org.visitor.Node;
 
 public class Parser {
-    public List<String> tokens;
-    public int position = 0;
-    public NodeFactory factory;
+
+    private final List<String> tokens;
+    private int position = 0;
+    private final NodeFactory factory;
 
     public Parser(List<String> tokens, NodeFactory factory) {
         this.tokens = tokens;
@@ -17,21 +18,55 @@ public class Parser {
     }
 
     public Node parse() {
+
+        if (position >= tokens.size()) {
+            throw new RuntimeException("Unexpected end of input");
+        }
+
         String token = tokens.get(position++);
 
+        // list
         if ("(".equals(token)) {
             List<Node> list = new ArrayList<>();
-            while (!")".equals(tokens.get(position))) {
+
+            while (true) {
+                if (position >= tokens.size()) {
+                    throw new RuntimeException("Missing ')'");
+                }
+
+                if (")".equals(tokens.get(position))) {
+                    position++; // skip ')'
+                    break;
+                }
+
                 list.add(parse());
             }
-            position++; // skip ')'
             return factory.createList(list);
         }
 
-        if (token.matches("-?\\d+")) {
-            return factory.createNumber(Integer.parseInt(token));
+        // extra )
+        if (")".equals(token)) {
+            throw new RuntimeException("Unexpected ')'");
+        }
+
+        // number checking
+        if (token.matches("-?\\d+(\\.\\d+)?")) {
+            try {
+                return factory.createNumber(Double.parseDouble(token));
+            } catch (NumberFormatException e) {
+                throw new RuntimeException("Invalid number: " + token);
+            }
         }
 
         return factory.createSymbol(token);
     }
+
+    public boolean hasRemainingTokens() {
+        return position < tokens.size();
+    }
+
+    public String getCurrentToken() {
+        return position < tokens.size() ? tokens.get(position) : null;
+    }
+
 }

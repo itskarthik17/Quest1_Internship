@@ -9,7 +9,7 @@ import org.visitor.SymbolNode;
 
 public class NodeFactory {
 
-    public NumberNode createNumber(int value) {
+    public NumberNode createNumber(double value) {
         return new NumberNode(value);
     }
 

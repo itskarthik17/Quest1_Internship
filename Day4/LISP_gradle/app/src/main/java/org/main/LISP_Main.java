@@ -10,21 +10,34 @@ import org.preProcess.Tokenizer;
 import org.visitor.Node;
 
 public class LISP_Main {
+
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter Expression: ");
         String input = sc.nextLine();
 
-        List<String> tokens = Tokenizer.tokenize(input);
+        try {
 
-        NodeFactory factory = new NodeFactory();
-        Parser parser = new Parser(tokens, factory);
+            List<String> tokens = Tokenizer.tokenize(input);
 
-        Node ast = parser.parse();
+            NodeFactory factory = new NodeFactory();
+            Parser parser = new Parser(tokens, factory);
 
-        EvaluationVisitor evaluator = new EvaluationVisitor();
-        Object result = ast.accept(evaluator);
+            Node ast = parser.parse();
 
-        System.out.println("Result: " + result);
+            if (parser.hasRemainingTokens()) {
+                throw new RuntimeException(
+                        "Unexpected token: " + parser.getCurrentToken());
+            }
+
+            EvaluationVisitor evaluator = new EvaluationVisitor();
+            Object result = ast.accept(evaluator);
+
+            System.out.println("Result: " + result);
+
+        } catch (RuntimeException e) {
+            System.err.println("LISP Error: " + e.getMessage());
+        }
     }
 }

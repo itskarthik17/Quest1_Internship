@@ -2,13 +2,13 @@ package org.visitor;
 
 public class NumberNode implements Node {
 
-    public int value;
+    private final double value;
 
-    public NumberNode(int value) {
+    public NumberNode(double value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
@@ -16,5 +16,4 @@ public class NumberNode implements Node {
     public Object accept(Visitor visitor) {
         return visitor.visit(this);
     }
-
 }
