@@ -40,5 +40,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'org.main.LISP_Main'
+    mainClass = 'org.karth.main.LISP_Main'
 }

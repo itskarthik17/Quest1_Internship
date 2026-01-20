@@ -1,13 +1,13 @@
-package org.evaluate;
+package org.karth.evaluate;
 
 import java.util.List;
 
-import org.singleton.GlobalEnvironment;
-import org.visitor.ListNode;
-import org.visitor.Node;
-import org.visitor.NumberNode;
-import org.visitor.SymbolNode;
-import org.visitor.Visitor;
+import org.karth.singleton.GlobalEnvironment;
+import org.karth.visitor.ListNode;
+import org.karth.visitor.Node;
+import org.karth.visitor.NumberNode;
+import org.karth.visitor.SymbolNode;
+import org.karth.visitor.Visitor;
 
 public class EvaluationVisitor implements Visitor {
 

@@ -1,10 +1,10 @@
-package org.preprocess;
+package org.karth.preprocess;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.factory.NodeFactory;
-import org.visitor.Node;
+import org.karth.factory.NodeFactory;
+import org.karth.visitor.Node;
 
 public class Parser {
 

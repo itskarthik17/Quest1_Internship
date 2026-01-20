@@ -1,4 +1,4 @@
-package org.visitor;
+package org.karth.visitor;
 
 public interface Visitor {
     public Object visit(NumberNode node);

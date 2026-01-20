@@ -1,9 +1,9 @@
-package org.singleton;
+package org.karth.singleton;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.customexception.LispException;
+import org.karth.customexception.LispException;
 
 public class GlobalEnvironment {
     private static GlobalEnvironment instance;
