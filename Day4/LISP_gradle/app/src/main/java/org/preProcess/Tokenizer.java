@@ -1,4 +1,4 @@
-package org.preProcess;
+package org.preprocess;
 
 import java.util.Arrays;
 import java.util.List;

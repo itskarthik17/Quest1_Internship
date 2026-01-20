@@ -1,4 +1,4 @@
-package org.preProcess;
+package org.preprocess;
 
 import java.util.ArrayList;
 import java.util.List;

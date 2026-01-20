@@ -9,6 +9,18 @@ import org.visitor.SymbolNode;
 
 public class NodeFactory {
 
+    private static NodeFactory instance;
+
+    private NodeFactory() {
+    }
+
+    public static NodeFactory getInstance() {
+        if (instance == null) {
+            instance = new NodeFactory();
+        }
+        return instance;
+    }
+
     public NumberNode createNumber(double value) { // if the number is integer
         return new NumberNode(value, false);
     }

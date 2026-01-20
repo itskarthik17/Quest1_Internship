@@ -3,7 +3,7 @@ package org.singleton;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.customException.LispException;
+import org.customexception.LispException;
 
 public class GlobalEnvironment {
     private static GlobalEnvironment instance;

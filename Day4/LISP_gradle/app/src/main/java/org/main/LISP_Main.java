@@ -5,39 +5,53 @@ import java.util.Scanner;
 
 import org.evaluate.EvaluationVisitor;
 import org.factory.NodeFactory;
-import org.preProcess.Parser;
-import org.preProcess.Tokenizer;
+import org.preprocess.Tokenizer;
 import org.visitor.Node;
+import org.preprocess.Parser;
 
 public class LISP_Main {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter Expression: ");
-        String input = sc.nextLine();
+        EvaluationVisitor evaluator = new EvaluationVisitor();
 
-        try {
+        System.out.println("LISP Interpreter (type exit to quit): ");
 
-            List<String> tokens = Tokenizer.tokenize(input);
+        while (true) {
+            System.out.print(">> ");
 
-            NodeFactory factory = new NodeFactory();
-            Parser parser = new Parser(tokens, factory);
+            String input = sc.nextLine().trim();
 
-            Node ast = parser.parse();
-
-            if (parser.hasRemainingTokens()) {
-                throw new RuntimeException(
-                        "Unexpected token: " + parser.getCurrentToken());
+            if (input.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting....");
+                break;
             }
 
-            EvaluationVisitor evaluator = new EvaluationVisitor();
-            Object result = ast.accept(evaluator);
+            try {
 
-            System.out.println("Result: " + result);
+                List<String> tokens = Tokenizer.tokenize(input);
 
-        } catch (RuntimeException e) {
-            System.err.println("LISP Error: " + e.getMessage());
+                NodeFactory factory = NodeFactory.getInstance();
+                Parser parser = new Parser(tokens, factory);
+
+                Object result = null;
+
+                while (parser.hasRemainingTokens()) {
+                    Node ast = parser.parse();
+                    result = ast.accept(evaluator);
+                }
+
+                if (result != null) {
+                    System.out.println("Result: " + result);
+                }
+
+            } catch (RuntimeException e) {
+                System.out.println("LISP Error: " + e.getMessage());
+            }
         }
+
+        sc.close();
+
     }
 }
