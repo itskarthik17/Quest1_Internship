@@ -68,7 +68,7 @@ public class EvaluationVisitor implements Visitor {
                 return num(elements.get(1)) > num(elements.get(2)) ? 1 : 0;
 
             case "<":
-                return num(elements.get(1)) < num(elements.get(2)) ? 1 : "False";
+                return num(elements.get(1)) < num(elements.get(2)) ? 1 : 0;
 
             case "define":
                 if (!(elements.get(1) instanceof SymbolNode)) {
