@@ -2,19 +2,18 @@ package org.karth;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
 import org.karth.evaluate.EvaluationVisitor;
 import org.karth.factory.NodeFactory;
 import org.karth.preprocess.Parser;
 import org.karth.preprocess.Tokenizer;
 import org.karth.visitor.Node;
 
-public class LispInterpreterTest {
+class LispInterpreterTest {
 
     private NodeFactory factory;
     private EvaluationVisitor evaluator;
@@ -43,33 +42,33 @@ public class LispInterpreterTest {
 
     @Test
     void testDefineVariableInteger() {
-        Assertions.assertEquals(10, eval("(define x 10)"));
+        Assertions.assertEquals(10, eval("(define x 10)"), "integer variable defining testing");
     }
 
     @Test
     void testDefineVariableDouble() {
-        Assertions.assertEquals(10.0, ((Double) eval("(define x 10.0)")));
+        Assertions.assertEquals(10.0, ((Double) eval("(define x 10.0)")), "integer variable defining testing");
     }
 
     @Test
     void testVariableUsage() {
         eval("(define x 10)");
-        Assertions.assertEquals(15, eval("(+ x 5)"));
+        Assertions.assertEquals(15, eval("(+ x 5)"), "variable usage testing");
     }
 
     @Test
     void testNestedExpression() {
-        Assertions.assertEquals(7, eval("(+ 1 (* 2 3))"));
+        Assertions.assertEquals(7, eval("(+ 1 (* 2 3))"), "Nested Expression testing");
     }
 
     @Test
     void testIfTrueBranch() {
-        Assertions.assertEquals(10, eval("(if (> 5 3) 10 20)"));
+        Assertions.assertEquals(10, eval("(if (> 5 3) 10 20)"), "if condition testing");
     }
 
     @Test
     void testIfFalseBranch() {
-        Assertions.assertEquals(20, eval("(if (< 5 3) 10 20)"));
+        Assertions.assertEquals(20, eval("(if (< 5 3) 10 20)"), "if condition testing");
     }
 
     @ParameterizedTest(name = "{0} = {1}")
@@ -87,7 +86,7 @@ public class LispInterpreterTest {
         Assertions.assertEquals(
                 expected,
                 ((Number) result).doubleValue(),
-                1e-9);
+                1e-9, "Arithmentic Expression Tesiting");
     }
 
     @ParameterizedTest(name = "{0} = {1}")
@@ -99,6 +98,6 @@ public class LispInterpreterTest {
     })
     void testRelationalExpressions(String expression, int expected) {
         Object result = eval(expression);
-        Assertions.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result, "Parameterized Testing of Relational Expression");
     }
 }

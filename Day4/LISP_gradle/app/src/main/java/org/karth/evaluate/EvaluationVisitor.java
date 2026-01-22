@@ -25,10 +25,10 @@ public class EvaluationVisitor implements Visitor {
     @Override
     public Object visit(SymbolNode node) {
         String name = node.getName();
-        if (name.equalsIgnoreCase("true")) {
+        if ("true".equalsIgnoreCase(name)) {
             return 1;
         }
-        if (name.equalsIgnoreCase("false")) {
+        if ("false".equalsIgnoreCase(name)) {
             return 0;
         }
 
@@ -119,10 +119,10 @@ public class EvaluationVisitor implements Visitor {
         }
 
         if (value instanceof String) {
-            if (((String) value).equalsIgnoreCase("true")) {
+            if ("true".equalsIgnoreCase(((String) value))) {
                 return 1.0;
             }
-            if (((String) value).equalsIgnoreCase("false")) {
+            if ("false".equalsIgnoreCase(((String) value))) {
                 return 0.0;
             }
         }

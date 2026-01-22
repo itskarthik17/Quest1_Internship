@@ -3,11 +3,11 @@ package org.karth.visitor;
 public class NumberNode implements Node {
 
     private final double value;
-    private final boolean isFloatLiteral;
+    private final boolean isFloat;
 
     public NumberNode(double value, boolean isFloatLiteral) {
         this.value = value;
-        this.isFloatLiteral = isFloatLiteral;
+        this.isFloat = isFloatLiteral;
     }
 
     public double getValue() {
@@ -15,7 +15,7 @@ public class NumberNode implements Node {
     }
 
     public boolean isFloatLiteral() {
-        return isFloatLiteral;
+        return isFloat;
     }
 
     @Override

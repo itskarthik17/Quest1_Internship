@@ -9,7 +9,7 @@ import org.karth.preprocess.Parser;
 import org.karth.preprocess.Tokenizer;
 import org.karth.visitor.Node;
 
-public class LISP_Main {
+public class LISPMain {
 
     public static void main(String[] args) {
 
@@ -23,7 +23,7 @@ public class LISP_Main {
 
             String input = sc.nextLine().trim();
 
-            if (input.equalsIgnoreCase("exit")) {
+            if ("exit".equalsIgnoreCase(input)) {
                 System.out.println("Exiting....");
                 break;
             }
@@ -47,7 +47,7 @@ public class LISP_Main {
                 }
 
             } catch (RuntimeException e) {
-                System.out.println("LISP Error: " + e.getMessage());
+                System.err.println("LISP Error: " + e.getMessage());
             }
         }
 
