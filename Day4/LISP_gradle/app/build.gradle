@@ -1,5 +1,7 @@
 plugins {
     id 'application'
+    id 'pmd'
+    id 'com.github.spotbugs' version '6.4.4'
 }
 
 repositories {
@@ -14,6 +16,8 @@ dependencies {
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.0'
+
+    spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0'
 }
 
 test {
@@ -29,3 +33,34 @@ java {
 application {
     mainClass = 'org.karth.main.LISP_Main'
 }
+
+pmd {
+    consoleOutput = true
+    toolVersion = "7.16.0"
+    rulesMinimumPriority = 5
+    ruleSets = ["category/java/errorprone.xml", "category/java/bestpractices.xml"]
+    threads = 4
+}
+
+spotbugs {
+    toolVersion = '4.9.8'
+    effort = 'max'
+    reportLevel = 'high' 
+    reportsDir = file("$buildDir/spotbugs-reports")
+}
+
+spotbugsMain {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        // Additional report configuration options are available.
+    }
+}
+
+spotbugsTest {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
